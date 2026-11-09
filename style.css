@@ -107,9 +107,29 @@ body::before {
   z-index: 1;
 }
 
-/* Allow natural scrolling at all times */
-body.cover-active {
-  overflow-y: auto;
+/* --------------------------------------------------------------------------
+   STRICT INVITATION GATE (LOCKED UNTIL "OPEN INVITATION" CLICKED)
+   -------------------------------------------------------------------------- */
+body.invitation-locked {
+  overflow: hidden !important;
+  height: 100vh !important;
+  max-height: 100vh !important;
+}
+
+body.invitation-locked .main-invitation-content,
+body.invitation-locked .celebration-ribbon,
+body.invitation-locked .quick-nav,
+body.invitation-locked .site-footer {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+body.invitation-locked .opening-cover {
+  height: 100vh;
+  min-height: 100vh;
+  overflow: hidden;
 }
 
 /* Accessible hidden utility */
@@ -628,6 +648,21 @@ body.cover-active {
   gap: 56px;
   opacity: 1;
   transition: opacity 0.8s ease;
+}
+
+body.invitation-unlocked .main-invitation-content {
+  animation: fadeInMainContent 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInMainContent {
+  0% {
+    opacity: 0;
+    transform: translateY(35px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .celebration-ribbon {

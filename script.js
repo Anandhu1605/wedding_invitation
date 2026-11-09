@@ -448,61 +448,67 @@
     const mainContent = document.getElementById('mainInvitationContent');
     const quickNav = document.getElementById('quickNav');
 
-    // Handler when user clicks "OPEN INVITATION"
+    function initSectionObserver() {
+      const revealSections = document.querySelectorAll('.invitation-section');
+      if ('IntersectionObserver' in window) {
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px 0px -80px 0px',
+          threshold: 0.12
+        };
+
+        const sectionObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, observerOptions);
+
+        revealSections.forEach(section => {
+          sectionObserver.observe(section);
+        });
+      } else {
+        revealSections.forEach(section => section.classList.add('is-revealed'));
+      }
+    }
+
+    // STRICT GATE: Only clicking "OPEN INVITATION" reveals the rest of the pages
     if (openBtn) {
       openBtn.addEventListener('click', function () {
-        document.body.classList.remove('cover-active');
+        // 1. Unlock the body and reveal main invitation content
+        document.body.classList.remove('invitation-locked');
+        document.body.classList.add('invitation-unlocked');
         openBtn.setAttribute('aria-expanded', 'true');
-        openingCover.classList.add('cover-opened');
+        
+        if (openingCover) {
+          openingCover.classList.add('cover-opened');
+        }
 
-        // Gently attempt to start audio if not already started
+        // 2. Gently attempt to start audio on interaction
         if (audioController && !audioController.isPlaying) {
           audioController.play();
         }
 
-        // Smoothly glide viewport to the Family section
-        const targetSection = document.getElementById('family') || mainContent;
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      });
-    }
+        // 3. Initialize scroll animations for revealed cards
+        initSectionObserver();
 
-    // Scroll Reveal for sections using IntersectionObserver
-    const revealSections = document.querySelectorAll('.invitation-section');
-    if ('IntersectionObserver' in window) {
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -80px 0px',
-        threshold: 0.12
-      };
-
-      const sectionObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-revealed');
-            observer.unobserve(entry.target);
+        // 4. Smoothly glide viewport to the Family section
+        setTimeout(() => {
+          const targetSection = document.getElementById('family') || mainContent;
+          if (targetSection) {
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
-        });
-      }, observerOptions);
-
-      revealSections.forEach(section => {
-        sectionObserver.observe(section);
+        }, 200);
       });
-    } else {
-      // Fallback for older browsers
-      revealSections.forEach(section => section.classList.add('is-revealed'));
     }
 
-    // Show / Hide Floating Quick Nav and auto-reveal cover on scroll
+    // Show / Hide Floating Quick Nav only after opening and scrolling past cover
     window.addEventListener('scroll', () => {
-      if (window.scrollY > 40) {
-        document.body.classList.remove('cover-active');
-        if (openBtn) openBtn.setAttribute('aria-expanded', 'true');
-        if (openingCover) openingCover.classList.add('cover-opened');
-      }
-
+      if (document.body.classList.contains('invitation-locked')) return;
       if (!quickNav || !openingCover) return;
+      
       const coverRect = openingCover.getBoundingClientRect();
       if (coverRect.bottom < 150) {
         quickNav.classList.add('nav-visible');
