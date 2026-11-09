@@ -23,7 +23,6 @@
       father: 'Ajayakumar K. K.',
       mother: 'Sapna Ajayakumar',
       displayTitle: 'AJAYAKUMAR K. K. & SAPNA AJAYAKUMAR',
-      location: 'Kannur & Thrissur, Kerala'
     },
     events: [
       {
@@ -90,7 +89,7 @@
       this.eventSubEl = document.getElementById('countdownEventSub');
       this.clockContainer = document.querySelector('.countdown-clock');
       this.completeMessageEl = document.getElementById('countdownCompleteMessage');
-      
+
       this.timerInterval = null;
       this.init();
     }
@@ -316,7 +315,7 @@
         // Keep the looping flag working even if the browser fires 'ended'
         this.audioEl.addEventListener('ended', () => {
           this.audioEl.currentTime = 0;
-          this.audioEl.play().catch(() => {});
+          this.audioEl.play().catch(() => { });
         });
       }
     }
@@ -393,8 +392,8 @@
         }
 
         const fundamental = 138.59;  // C#3  (Sa)
-        const fifth       = 207.65;  // G#3  (Pa)
-        const octave      = 277.18;  // C#4  (Sa upper)
+        const fifth = 207.65;  // G#3  (Pa)
+        const octave = 277.18;  // C#4  (Sa upper)
 
         const masterGain = this.audioContext.createGain();
         masterGain.gain.setValueAtTime(0.001, this.audioContext.currentTime);
@@ -440,7 +439,7 @@
               this.synthNodes = null;
             }
           }, 1000);
-        } catch (e) {}
+        } catch (e) { }
       }
     }
   }
@@ -514,7 +513,7 @@
     window.addEventListener('scroll', () => {
       if (document.body.classList.contains('invitation-locked')) return;
       if (!quickNav || !openingCover) return;
-      
+
       const coverRect = openingCover.getBoundingClientRect();
       if (coverRect.bottom < 150) {
         quickNav.classList.add('nav-visible');
@@ -603,7 +602,7 @@
 
     shareBtn.addEventListener('click', () => {
       const pageUrl = window.location.href;
-      const shareMessage = 
+      const shareMessage =
         `॥ शुभमस्तु ॥\n\n` +
         `With hearts filled with joy and gratitude, we cordially invite you and your family to the auspicious weddings of our sons:\n\n` +
         `🕊️ AKSHAY ACHUTH & DHWANI CHOKSI\n` +
