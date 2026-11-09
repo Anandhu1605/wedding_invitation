@@ -1,0 +1,1910 @@
+/* ==========================================================================
+   ROYAL KERALA HINDU WEDDING INVITATION — STYLESHEET
+   Design Direction: Luxury Traditional Indian Wedding Card
+   Palette: Warm Cream & Ivory • Antique Gold • Deep Burgundy • Teakwood Brown
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Custom Properties (Design Tokens)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Backgrounds & Canvas */
+  --color-ivory-light: #FDFBF7;
+  --color-ivory-base: #FAF6EE;
+  --color-ivory-card: #FFFDF9;
+  --color-ivory-warm: #F4EFE6;
+  --color-ivory-deep: #EDE4D4;
+
+  /* Antique Gold Spectrum */
+  --color-gold-light: #F5E0A3;
+  --color-gold-bright: #E5C158;
+  --color-gold-base: #D4AF37;
+  --color-gold-antique: #C5A059;
+  --color-gold-dark: #9B783E;
+  --color-gold-deep: #75551E;
+  --color-gold-shadow: rgba(180, 140, 60, 0.22);
+
+  /* Metallic Gold Gradients */
+  --grad-gold-foil: linear-gradient(135deg, #FFE8A3 0%, #D4AF37 40%, #AA7C11 75%, #F0D078 100%);
+  --grad-gold-horizontal: linear-gradient(90deg, #9B783E 0%, #D4AF37 50%, #9B783E 100%);
+  --grad-gold-card-border: linear-gradient(135deg, #D4AF37, #F5E0A3, #AA7C11, #E5C158);
+  --grad-ivory-card: linear-gradient(180deg, #FFFFFF 0%, #FAF6EE 60%, #F5EFEB 100%);
+  --grad-burgundy-soft: linear-gradient(180deg, #4A1521 0%, #360E17 100%);
+
+  /* Typography & Accents */
+  --color-burgundy: #4A1521;
+  --color-burgundy-dark: #320C15;
+  --color-burgundy-light: #6A2130;
+  --color-text-body: #2C1810;
+  --color-text-muted: #5C483F;
+  --color-text-gold: #B3862A;
+
+  /* Typography Families */
+  --font-heading: 'Cinzel', serif;
+  --font-couple: 'Cormorant Garamond', 'Cinzel', serif;
+  --font-body: 'Libre Baskerville', Georgia, serif;
+  --font-accent: 'Marcellus', 'Cinzel', serif;
+
+  /* Card & Ornamental Geometry */
+  --radius-card: 16px;
+  --radius-badge: 999px;
+  --shadow-subtle: 0 4px 20px rgba(74, 21, 33, 0.05);
+  --shadow-card: 0 12px 40px rgba(50, 12, 21, 0.08), 0 2px 8px rgba(197, 160, 89, 0.15);
+  --shadow-card-elevated: 0 20px 50px rgba(50, 12, 21, 0.12), 0 4px 16px rgba(197, 160, 89, 0.25);
+  --shadow-gold-glow: 0 0 25px rgba(212, 175, 55, 0.35);
+
+  /* Layout */
+  --container-max-w: 880px;
+  --transition-smooth: 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* --------------------------------------------------------------------------
+   2. Reset & Baseline
+   -------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--color-ivory-base);
+  color: var(--color-text-body);
+}
+
+body {
+  font-family: var(--font-body);
+  line-height: 1.75;
+  color: var(--color-text-body);
+  background-color: var(--color-ivory-base);
+  background-image:
+    radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+    radial-gradient(circle at 100% 100%, rgba(74, 21, 33, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 0% 100%, rgba(74, 21, 33, 0.04) 0%, transparent 50%),
+    linear-gradient(to bottom, #FAF6EE, #F5EFEB);
+  background-attachment: fixed;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Subtle traditional linen/parchment texture overlay */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Allow natural scrolling at all times */
+body.cover-active {
+  overflow-y: auto;
+}
+
+/* Accessible hidden utility */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Ambient Particle Canvas (Subtle Floating Gold Sparkles / Jasmine Petals)
+   -------------------------------------------------------------------------- */
+.ambient-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0.75;
+}
+
+/* --------------------------------------------------------------------------
+   4. Floating Audio & Quick Navigation Controls
+   -------------------------------------------------------------------------- */
+.audio-control-wrapper {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+}
+
+.audio-toggle-btn {
+  background: rgba(255, 253, 249, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1.5px solid var(--color-gold-antique);
+  border-radius: var(--radius-badge);
+  padding: 8px 16px 8px 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: var(--color-burgundy);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(50, 12, 21, 0.1), var(--shadow-gold-glow);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.audio-toggle-btn:hover,
+.audio-toggle-btn:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--color-gold-bright);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.45);
+}
+
+.audio-waves {
+  display: flex;
+  align-items: flex-end;
+  gap: 2.5px;
+  height: 14px;
+}
+
+.wave-bar {
+  width: 2.5px;
+  height: 4px;
+  background: var(--color-gold-base);
+  border-radius: 2px;
+  transition: height 0.2s ease;
+}
+
+.audio-toggle-btn.is-playing .wave-bar:nth-child(1) {
+  animation: wavePulse 0.9s ease-in-out infinite alternate;
+}
+
+.audio-toggle-btn.is-playing .wave-bar:nth-child(2) {
+  animation: wavePulse 0.7s ease-in-out infinite alternate 0.2s;
+}
+
+.audio-toggle-btn.is-playing .wave-bar:nth-child(3) {
+  animation: wavePulse 1.1s ease-in-out infinite alternate 0.1s;
+}
+
+.audio-toggle-btn.is-playing .wave-bar:nth-child(4) {
+  animation: wavePulse 0.8s ease-in-out infinite alternate 0.3s;
+}
+
+@keyframes wavePulse {
+  0% {
+    height: 4px;
+  }
+
+  100% {
+    height: 14px;
+  }
+}
+
+.audio-icon {
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.audio-icon-pause {
+  display: none;
+}
+
+.audio-toggle-btn.is-playing .audio-icon-play {
+  display: none;
+}
+
+.audio-toggle-btn.is-playing .audio-icon-pause {
+  display: inline-block;
+}
+
+/* Quick Navigation Bar (Sticky Desktop & Tablet) */
+.quick-nav {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  background: rgba(255, 253, 249, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-gold-antique);
+  border-radius: var(--radius-badge);
+  padding: 6px 12px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 10px 30px rgba(50, 12, 21, 0.15), var(--shadow-gold-glow);
+  z-index: 90;
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  max-width: 95vw;
+  overflow-x: auto;
+}
+
+.quick-nav.nav-visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.nav-pill {
+  color: var(--color-burgundy);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--radius-badge);
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.nav-pill:hover,
+.nav-pill:focus-visible {
+  background: var(--color-burgundy);
+  color: var(--color-gold-light);
+}
+
+/* --------------------------------------------------------------------------
+   5. SECTION 1: OPENING INVITATION (ROYAL FOIL COVER SCREEN)
+   -------------------------------------------------------------------------- */
+.opening-cover {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 12px;
+  background-color: var(--color-ivory-base);
+  z-index: 10;
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.cover-frame-outer {
+  position: relative;
+  width: 100%;
+  max-width: 660px;
+  background: var(--grad-ivory-card);
+  border: 3.5px solid var(--color-gold-base);
+  border-radius: 16px;
+  padding: 8px;
+  box-shadow:
+    0 16px 50px rgba(50, 12, 21, 0.12),
+    0 0 0 1px rgba(212, 175, 55, 0.3),
+    inset 0 0 30px rgba(212, 175, 55, 0.1);
+  margin: auto;
+}
+
+/* Traditional Kasavu Gold Geometric Inner Border */
+.cover-frame-inner {
+  position: relative;
+  border: 1.5px solid var(--color-burgundy);
+  border-radius: 12px;
+  padding: clamp(16px, 2.5vh, 28px) clamp(14px, 3vw, 24px);
+  text-align: center;
+  background-image:
+    radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 60%);
+  outline: 1px dashed var(--color-gold-antique);
+  outline-offset: -5px;
+}
+
+/* Antique Gold Corner Flourishes */
+.corner-flourish {
+  position: absolute;
+  width: 42px;
+  height: 42px;
+  pointer-events: none;
+  opacity: 0.85;
+}
+
+
+.corner-tl {
+  top: 4px;
+  left: 4px;
+}
+
+.corner-tr {
+  top: 4px;
+  right: 4px;
+}
+
+.corner-bl {
+  bottom: 4px;
+  left: 4px;
+}
+
+.corner-br {
+  bottom: 4px;
+  right: 4px;
+}
+
+.ornament-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cover-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(6px, 1.2vh, 12px);
+}
+
+/* Sanskrit Sacred Mantra Badge */
+.shubhamastu-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 18px;
+  margin-bottom: 0;
+}
+
+.sanskrit-mantra {
+  font-family: var(--font-heading), 'Cinzel Decorative', serif;
+  font-size: clamp(1.25rem, 3vw, 1.65rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--color-burgundy);
+  background: var(--grad-gold-foil);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 1px 1px rgba(74, 21, 33, 0.25));
+}
+
+/* Kerala Traditional Nilavilakku (Sacred Deepam) */
+.nilavilakku-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 2px 0 4px 0;
+  filter: drop-shadow(0 4px 10px rgba(170, 124, 17, 0.2));
+}
+
+.nilavilakku-svg {
+  height: clamp(80px, 13vh, 125px);
+  width: auto;
+  max-width: 100%;
+}
+
+.flame-aura {
+  animation: flameGlowPulse 2.8s ease-in-out infinite alternate;
+}
+
+.flame-core {
+  animation: flameFlicker 1.8s ease-in-out infinite alternate;
+  transform-origin: 70px 27px;
+}
+
+@keyframes flameGlowPulse {
+  0% {
+    r: 32px;
+    opacity: 0.65;
+  }
+
+  100% {
+    r: 42px;
+    opacity: 0.95;
+  }
+}
+
+@keyframes flameFlicker {
+  0% {
+    transform: scale(0.96) rotate(-1deg);
+  }
+
+  50% {
+    transform: scale(1.04) rotate(1.2deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.divine-blessing-text {
+  font-family: var(--font-heading);
+  font-size: clamp(0.68rem, 1.5vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  color: var(--color-burgundy);
+  text-transform: uppercase;
+  max-width: 90%;
+  line-height: 1.5;
+}
+
+.cover-separator-flourish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 200px;
+  color: var(--color-gold-base);
+  opacity: 0.9;
+}
+
+.flourish-line {
+  flex: 1;
+  height: 1px;
+  background: var(--grad-gold-horizontal);
+}
+
+.flourish-icon {
+  font-size: 0.8rem;
+  color: var(--color-gold-base);
+}
+
+.cover-main-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 3.8vw, 2.25rem);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--color-burgundy);
+  text-transform: uppercase;
+  margin-top: 0;
+  line-height: 1.15;
+  text-shadow: 0 1px 3px rgba(74, 21, 33, 0.08);
+}
+
+.cover-invitation-body {
+  font-family: var(--font-body);
+  font-size: clamp(0.85rem, 1.5vw, 0.98rem);
+  font-weight: 400;
+  color: var(--color-text-body);
+  line-height: 1.65;
+  max-width: 540px;
+  margin: 2px auto 6px auto;
+  font-style: normal;
+}
+
+/* Royal Gold Call-to-Action Button */
+.open-btn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.royal-gold-button {
+  position: relative;
+  background: var(--grad-gold-foil);
+  color: var(--color-burgundy-dark);
+  border: 1.5px solid var(--color-gold-deep);
+  border-radius: var(--radius-badge);
+  padding: 12px 34px;
+  font-family: var(--font-heading);
+  font-size: clamp(0.82rem, 1.8vw, 0.95rem);
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow:
+    0 6px 20px rgba(117, 85, 30, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.12),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  outline: none;
+}
+
+gap: 12px;
+overflow: hidden;
+transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+outline: none;
+}
+
+.royal-gold-button:hover,
+.royal-gold-button:focus-visible {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow:
+    0 14px 32px rgba(117, 85, 30, 0.45),
+    0 0 28px rgba(212, 175, 55, 0.6);
+  border-color: var(--color-gold-bright);
+}
+
+.royal-gold-button:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Button Shimmer Effect */
+.btn-sheen {
+  position: absolute;
+  top: 0;
+  left: -120%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  transform: skewX(-25deg);
+  animation: buttonShine 3.6s infinite;
+}
+
+@keyframes buttonShine {
+  0% {
+    left: -120%;
+  }
+
+  25% {
+    left: 160%;
+  }
+
+  100% {
+    left: 160%;
+  }
+}
+
+.btn-icon-left,
+.btn-icon-right {
+  font-size: 1.1rem;
+  color: var(--color-burgundy);
+  opacity: 0.85;
+}
+
+.scroll-hint-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+}
+
+.chevron-down-pulse {
+  color: var(--color-gold-antique);
+  animation: floatBounce 2s ease-in-out infinite;
+}
+
+@keyframes floatBounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   6. MAIN INVITATION CONTENT STRUCTURE & CELEBRATION RIBBON
+   -------------------------------------------------------------------------- */
+.main-invitation-content {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: var(--container-max-w);
+  margin: 0 auto;
+  padding: 20px 20px 80px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.celebration-ribbon {
+  text-align: center;
+  margin: 10px 0 -10px 0;
+}
+
+.ribbon-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(74, 21, 33, 0.04);
+  border-top: 1px solid var(--color-gold-antique);
+  border-bottom: 1px solid var(--color-gold-antique);
+  padding: 6px 20px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--color-burgundy);
+  font-weight: 700;
+}
+
+.ribbon-leaf {
+  color: var(--color-gold-base);
+  font-size: 0.8rem;
+}
+
+/* --------------------------------------------------------------------------
+   7. SHARED CARD AESTHETICS (PARCHMENT, ORNAMENTAL BORDERS)
+   -------------------------------------------------------------------------- */
+.invitation-section {
+  position: relative;
+  width: 100%;
+  scroll-margin-top: 70px;
+}
+
+.section-card {
+  position: relative;
+  background: var(--grad-ivory-card);
+  border: 2px solid var(--color-gold-antique);
+  border-radius: var(--radius-card);
+  padding: 48px 36px;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Delicate inner gold foil hairline border */
+.section-card::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 1px solid rgba(197, 160, 89, 0.45);
+  border-radius: calc(var(--radius-card) - 6px);
+  pointer-events: none;
+}
+
+.section-card:hover {
+  box-shadow: var(--shadow-card-elevated);
+}
+
+/* Kerala Traditional Badge */
+.section-badge-kerala {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.26em;
+  color: var(--color-gold-dark);
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+
+.badge-dot {
+  font-size: 0.45rem;
+  color: var(--color-gold-base);
+}
+
+.section-headline {
+  font-family: var(--font-heading);
+  font-size: clamp(1.45rem, 3.2vw, 2.05rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-burgundy);
+  line-height: 1.35;
+  margin-bottom: 8px;
+}
+
+.section-subtext {
+  font-family: var(--font-body);
+  font-size: 0.98rem;
+  color: var(--color-text-muted);
+  max-width: 540px;
+  margin: 0 auto 32px auto;
+  font-style: italic;
+}
+
+/* Auspicious Divider Motif */
+.gold-divider-motif {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 18px auto 26px auto;
+  width: 100%;
+  max-width: 280px;
+}
+
+.line-wing {
+  flex: 1;
+  height: 1px;
+  background: var(--grad-gold-horizontal);
+}
+
+.lotus-glyph {
+  display: block;
+}
+
+.gold-star {
+  color: var(--color-gold-base);
+  font-size: 1.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   8. SECTION 2: FAMILY INTRODUCTION SPECIFIC STYLES
+   -------------------------------------------------------------------------- */
+.family-section .section-card {
+  padding-top: 36px;
+}
+
+.card-arch-header {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 12px auto;
+}
+
+.arch-svg {
+  width: 100%;
+  height: 28px;
+  display: block;
+}
+
+.family-prose {
+  max-width: 680px;
+  margin: 0 auto 34px auto;
+}
+
+.lead-prose {
+  font-family: var(--font-body);
+  font-size: clamp(1.02rem, 2.2vw, 1.18rem);
+  color: var(--color-text-body);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.sub-prose {
+  font-family: var(--font-heading);
+  font-size: clamp(0.92rem, 1.9vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: var(--color-burgundy);
+  line-height: 1.7;
+}
+
+/* Parents Presentation Plaque */
+.parents-presentation {
+  display: inline-block;
+  background: rgba(212, 175, 55, 0.06);
+  border: 1.5px solid var(--color-gold-antique);
+  border-radius: 12px;
+  padding: 26px 40px;
+  margin-top: 10px;
+  box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.08);
+}
+
+.parents-prefix {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--color-gold-dark);
+  text-transform: uppercase;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.parents-names-cluster {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+}
+
+.parent-name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 2.6vw, 1.55rem);
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  color: var(--color-burgundy);
+}
+
+.ampersand-ornament {
+  font-family: var(--font-couple);
+  font-size: 1.8rem;
+  font-style: italic;
+  color: var(--color-gold-base);
+  line-height: 1;
+}
+
+.family-hometown {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   9. COUNTDOWN TIMER SECTION STYLES
+   -------------------------------------------------------------------------- */
+.countdown-card {
+  background: linear-gradient(180deg, #FFFDF9 0%, #FAF2E4 100%);
+  border: 2px solid var(--color-gold-base);
+  padding: 40px 24px;
+}
+
+.countdown-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-burgundy);
+  color: var(--color-gold-light);
+  padding: 4px 14px;
+  border-radius: var(--radius-badge);
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.live-pulse {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #4ADE80;
+  box-shadow: 0 0 8px #4ADE80;
+  animation: pulseDot 1.5s infinite;
+}
+
+@keyframes pulseDot {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(0.8);
+  }
+}
+
+.countdown-event-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 3vw, 1.95rem);
+  font-weight: 700;
+  color: var(--color-burgundy);
+  margin-bottom: 4px;
+}
+
+.countdown-target-date {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--color-gold-dark);
+  font-weight: 700;
+  margin-bottom: 26px;
+}
+
+.countdown-clock {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(8px, 2.5vw, 20px);
+  margin-bottom: 22px;
+}
+
+.clock-unit-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: clamp(62px, 14vw, 92px);
+}
+
+.unit-flipper {
+  position: relative;
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-gold-antique);
+  border-radius: 12px;
+  width: 100%;
+  padding: 12px 6px;
+  box-shadow:
+    0 4px 12px rgba(50, 12, 21, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.unit-flipper::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(197, 160, 89, 0.25);
+}
+
+.unit-value {
+  font-family: var(--font-heading);
+  font-size: clamp(1.5rem, 4vw, 2.4rem);
+  font-weight: 800;
+  color: var(--color-burgundy);
+  line-height: 1;
+  display: block;
+}
+
+.unit-label {
+  font-family: var(--font-heading);
+  font-size: clamp(0.62rem, 1.4vw, 0.72rem);
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  color: var(--color-gold-dark);
+}
+
+.clock-separator {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  font-weight: 700;
+  color: var(--color-gold-antique);
+  margin-bottom: 24px;
+}
+
+.timezone-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.countdown-complete-message {
+  padding: 20px;
+  margin-top: 15px;
+  border-top: 1px dashed var(--color-gold-antique);
+}
+
+.gratitude-headline {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
+  color: var(--color-gold-dark);
+  margin-bottom: 8px;
+}
+
+.gratitude-body {
+  font-family: var(--font-body);
+  font-size: 1.05rem;
+  color: var(--color-burgundy);
+  line-height: 1.8;
+}
+
+/* --------------------------------------------------------------------------
+   10. SECTIONS 3 & 4: THE WEDDINGS (AKSHAY & DHWANI / ANANDHU & NEERAJA)
+   -------------------------------------------------------------------------- */
+.wedding-card {
+  border-color: var(--color-gold-base);
+  padding: 50px 32px;
+}
+
+.temple-motif-header {
+  margin: 0 auto 16px auto;
+  opacity: 0.9;
+}
+
+.kerala-temple-svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.ceremony-tagline {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.28em;
+  color: var(--color-gold-dark);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.ceremony-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3.2vw, 1.85rem);
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--color-burgundy);
+  margin-bottom: 28px;
+}
+
+/* Couple Presentation Layout */
+.couple-profile {
+  margin: 10px 0;
+}
+
+.person-name {
+  font-family: var(--font-couple);
+  font-size: clamp(2rem, 5.5vw, 2.9rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--color-burgundy);
+  line-height: 1.15;
+  text-shadow: 0 1px 2px rgba(74, 21, 33, 0.08);
+  margin-bottom: 8px;
+}
+
+.lineage-block {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.relation-label {
+  font-family: var(--font-heading);
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--color-gold-dark);
+  text-transform: uppercase;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.lineage-gap {
+  margin-top: 10px;
+}
+
+.relation-names {
+  font-family: var(--font-body);
+  font-size: clamp(0.92rem, 2vw, 1.05rem);
+  color: var(--color-text-body);
+  line-height: 1.6;
+}
+
+.relation-names.parents {
+  font-weight: 700;
+  color: var(--color-burgundy-dark);
+}
+
+.relation-names.grandparents {
+  color: var(--color-text-muted);
+  font-style: normal;
+}
+
+/* Regal "WEDS" Separator */
+.weds-separator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 380px;
+  margin: 28px auto;
+}
+
+.weds-line {
+  flex: 1;
+  height: 1.5px;
+  background: var(--grad-gold-horizontal);
+}
+
+.weds-knot {
+  position: relative;
+  background: var(--grad-gold-foil);
+  color: var(--color-burgundy-dark);
+  padding: 6px 18px;
+  border-radius: var(--radius-badge);
+  box-shadow: 0 2px 8px rgba(117, 85, 30, 0.25);
+  border: 1px solid var(--color-gold-deep);
+}
+
+.weds-text {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 800;
+  letter-spacing: 0.25em;
+  display: block;
+}
+
+/* Event Metadata Box (Date & Venue) */
+.event-meta-box {
+  background: rgba(253, 248, 237, 0.85);
+  border: 1.5px solid var(--color-gold-antique);
+  border-radius: 12px;
+  padding: 24px 28px;
+  margin: 32px auto 26px auto;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  text-align: left;
+  box-shadow: inset 0 0 15px rgba(212, 175, 55, 0.08);
+}
+
+.meta-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.meta-icon {
+  color: var(--color-gold-base);
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+.meta-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-subtitle {
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  font-weight: 700;
+  color: var(--color-gold-dark);
+  margin-bottom: 2px;
+}
+
+.meta-highlight {
+  font-family: var(--font-heading);
+  font-size: clamp(1.15rem, 2.5vw, 1.45rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--color-burgundy);
+  line-height: 1.3;
+}
+
+.meta-time-badge {
+  display: inline-block;
+  background: var(--color-burgundy);
+  color: var(--color-gold-light);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-top: 4px;
+  align-self: flex-start;
+}
+
+.venue-name {
+  font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+}
+
+.meta-detail {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+/* Card Action Buttons (Map & Calendar) */
+.card-action-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.card-action-btn {
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-gold-antique);
+  border-radius: var(--radius-badge);
+  padding: 10px 22px;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  color: var(--color-burgundy);
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(50, 12, 21, 0.06);
+  transition: all 0.3s ease;
+}
+
+.card-action-btn:hover,
+.card-action-btn:focus-visible {
+  transform: translateY(-2px);
+  background: var(--color-burgundy);
+  color: var(--color-gold-light);
+  border-color: var(--color-burgundy);
+  box-shadow: 0 6px 18px rgba(74, 21, 33, 0.25);
+}
+
+.btn-map-gold {
+  background: var(--grad-gold-foil);
+  color: var(--color-burgundy-dark);
+  border-color: var(--color-gold-deep);
+  box-shadow: 0 4px 16px rgba(117, 85, 30, 0.25);
+}
+
+.btn-map-gold:hover {
+  background: var(--color-burgundy);
+  color: var(--color-gold-light);
+  border-color: var(--color-burgundy);
+}
+
+/* --------------------------------------------------------------------------
+   11. SECTION 5: GRAND WEDDING RECEPTION
+   -------------------------------------------------------------------------- */
+.reception-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF4E8 50%, #F5ECDA 100%);
+  border: 2.5px solid var(--color-gold-base);
+  box-shadow: var(--shadow-card-elevated);
+  padding: 56px 36px;
+}
+
+/* Reception Royal Toran Crown */
+.reception-crown {
+  margin: 0 auto 12px auto;
+}
+
+.royal-toran-svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.reception-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  letter-spacing: 0.28em;
+  color: var(--color-gold-dark);
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.reception-title {
+  font-family: var(--font-heading);
+  font-size: clamp(1.65rem, 4vw, 2.45rem);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--color-burgundy);
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.reception-prose {
+  font-family: var(--font-body);
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  color: var(--color-text-body);
+  line-height: 1.9;
+  max-width: 620px;
+  margin: 0 auto 34px auto;
+}
+
+/* Reception 3-Column Showcase */
+.reception-details-showcase {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 34px;
+}
+
+.reception-item {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1.5px solid var(--color-gold-antique);
+  border-radius: 12px;
+  padding: 22px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 4px 14px rgba(50, 12, 21, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.reception-item:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-gold-bright);
+}
+
+.item-icon-tag {
+  color: var(--color-gold-base);
+  margin-bottom: 8px;
+}
+
+.item-title {
+  font-family: var(--font-heading);
+  font-size: 0.68rem;
+  letter-spacing: 0.22em;
+  font-weight: 700;
+  color: var(--color-gold-dark);
+  margin-bottom: 4px;
+}
+
+.item-val {
+  font-family: var(--font-heading);
+  font-size: clamp(0.95rem, 2vw, 1.18rem);
+  font-weight: 800;
+  color: var(--color-burgundy);
+  letter-spacing: 0.06em;
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.item-sub {
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* --------------------------------------------------------------------------
+   12. VENUES & MAP GUIDE SECTION
+   -------------------------------------------------------------------------- */
+.venues-section {
+  text-align: center;
+}
+
+.venues-wrapper {
+  width: 100%;
+}
+
+.venues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  text-align: left;
+}
+
+.venue-card {
+  position: relative;
+  background: var(--grad-ivory-card);
+  border: 1.5px solid var(--color-gold-antique);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.venue-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-card-elevated);
+  border-color: var(--color-gold-bright);
+}
+
+.venue-card-accent {
+  height: 4px;
+  background: var(--grad-gold-foil);
+  width: 100%;
+}
+
+.venue-card-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.venue-event-badge {
+  display: inline-block;
+  font-family: var(--font-heading);
+  font-size: 0.65rem;
+  letter-spacing: 0.16em;
+  font-weight: 700;
+  color: var(--color-gold-dark);
+  margin-bottom: 8px;
+}
+
+.venue-card-name {
+  font-family: var(--font-heading);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--color-burgundy);
+  line-height: 1.35;
+  margin-bottom: 4px;
+}
+
+.venue-card-role {
+  font-family: var(--font-couple);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--color-gold-dark);
+  margin-bottom: 12px;
+}
+
+.venue-card-address {
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-style: normal;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1;
+}
+
+.venue-card-actions {
+  margin-top: auto;
+}
+
+.venue-link-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 10px 16px;
+  background: var(--color-ivory-warm);
+  border: 1px solid var(--color-gold-antique);
+  border-radius: var(--radius-badge);
+  color: var(--color-burgundy);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  transition: all 0.25s ease;
+}
+
+.venue-link-btn:hover,
+.venue-link-btn:focus-visible {
+  background: var(--color-burgundy);
+  color: var(--color-gold-light);
+  border-color: var(--color-burgundy);
+}
+
+/* --------------------------------------------------------------------------
+   13. SECTION 6: CLOSING MESSAGE & BLESSINGS
+   -------------------------------------------------------------------------- */
+.closing-card {
+  padding: 56px 36px;
+  background: linear-gradient(180deg, #FFFFFF 0%, #FAF5EA 60%, #F5EDE0 100%);
+  border: 2px solid var(--color-gold-base);
+}
+
+.closing-crest {
+  margin: 0 auto 20px auto;
+}
+
+.sacred-crest-svg {
+  display: block;
+  margin: 0 auto;
+}
+
+.closing-body-prose {
+  max-width: 660px;
+  margin: 0 auto 32px auto;
+}
+
+.closing-lead {
+  font-family: var(--font-body);
+  font-size: clamp(1.02rem, 2.3vw, 1.2rem);
+  line-height: 1.95;
+  color: var(--color-text-body);
+  margin-bottom: 16px;
+}
+
+.closing-warmth {
+  font-family: var(--font-body);
+  font-size: clamp(0.95rem, 2vw, 1.1rem);
+  line-height: 1.85;
+  color: var(--color-text-muted);
+}
+
+/* Sacred Privilege & Treasure Affirmation Ribbons */
+.sacred-affirmations {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 620px;
+  margin: 0 auto 36px auto;
+}
+
+.affirmation-line {
+  background: rgba(74, 21, 33, 0.04);
+  border: 1px solid var(--color-gold-antique);
+  border-radius: var(--radius-badge);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.line-treasure {
+  background: rgba(212, 175, 55, 0.08);
+  border-color: var(--color-gold-base);
+}
+
+.affirmation-ornament {
+  color: var(--color-gold-base);
+  font-size: 0.8rem;
+}
+
+.affirmation-text {
+  font-family: var(--font-heading);
+  font-size: clamp(0.85rem, 2.1vw, 1.05rem);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--color-burgundy);
+}
+
+/* Sign-off Block */
+.closing-signoff {
+  margin-bottom: 30px;
+}
+
+.signoff-intro {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  margin-bottom: 10px;
+}
+
+.signoff-hosts {
+  margin-bottom: 6px;
+}
+
+.hosts-name {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2.8vw, 1.6rem);
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--color-burgundy);
+}
+
+.signoff-family {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--color-text-body);
+}
+
+/* Grand Gold Divider Finale */
+.grand-gold-divider {
+  width: 100%;
+  max-width: 480px;
+  margin: 30px auto 26px auto;
+}
+
+.divider-flourish-svg {
+  width: 100%;
+  height: 30px;
+  display: block;
+}
+
+.shanti-benediction {
+  margin-bottom: 34px;
+}
+
+.shanti-verse {
+  font-family: var(--font-heading);
+  font-size: clamp(0.92rem, 2vw, 1.05rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--color-gold-dark);
+  margin-bottom: 4px;
+}
+
+.shanti-sub {
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* WhatsApp Share Button */
+.whatsapp-share-btn {
+  background: #25D366;
+  color: #FFFFFF;
+  border: none;
+  border-radius: var(--radius-badge);
+  padding: 12px 28px;
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  letter-spacing: 0.12em;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
+  transition: all 0.3s ease;
+  outline: none;
+}
+
+.whatsapp-share-btn:hover,
+.whatsapp-share-btn:focus-visible {
+  transform: translateY(-2px);
+  background: #20BA5A;
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
+}
+
+/* --------------------------------------------------------------------------
+   14. SITE FOOTER
+   -------------------------------------------------------------------------- */
+.site-footer {
+  text-align: center;
+  padding: 30px 16px 50px 16px;
+  border-top: 1px solid rgba(197, 160, 89, 0.3);
+  margin-top: 20px;
+}
+
+.footer-inner {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-dedication {
+  font-family: var(--font-heading);
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  color: var(--color-burgundy);
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.footer-sub {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   15. SCROLL REVEAL & INTERACTIVE ANIMATIONS
+   -------------------------------------------------------------------------- */
+.invitation-section {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.invitation-section.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Opening Cover Reveal Animation */
+.opening-cover.cover-opened {
+  opacity: 0.95;
+}
+
+/* --------------------------------------------------------------------------
+   16. ACCESSIBILITY & REDUCED MOTION PREFERENCE
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .invitation-section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .ambient-canvas {
+    display: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   17. RESPONSIVE BREAKPOINTS (MOBILE-FIRST POLISH)
+   -------------------------------------------------------------------------- */
+@media (max-width: 768px) {
+  .cover-frame-outer {
+    padding: 8px;
+    border-width: 3px;
+  }
+
+  .cover-frame-inner {
+    padding: 34px 18px 30px 18px;
+  }
+
+  .corner-flourish {
+    width: 36px;
+    height: 36px;
+  }
+
+  .section-card {
+    padding: 36px 18px;
+  }
+
+  .reception-card {
+    padding: 40px 18px;
+  }
+
+  .reception-details-showcase {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .parents-presentation {
+    padding: 20px 16px;
+    width: 100%;
+  }
+
+  .event-meta-box {
+    padding: 18px 16px;
+  }
+
+  .quick-nav {
+    display: none;
+    /* Keep clean on small mobile devices to avoid blocking content */
+  }
+
+  .audio-toggle-btn {
+    padding: 6px 12px 6px 10px;
+    font-size: 0.68rem;
+  }
+
+  .affirmation-line {
+    padding: 10px 14px;
+  }
+
+  .affirmation-text {
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (max-width: 480px) {
+  .countdown-clock {
+    gap: 6px;
+  }
+
+  .clock-unit-card {
+    min-width: 58px;
+  }
+
+  .unit-flipper {
+    padding: 8px 4px;
+  }
+
+  .clock-separator {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+
+  .royal-gold-button {
+    padding: 14px 26px;
+    letter-spacing: 0.14em;
+    font-size: 0.82rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   18. PRINT STYLESHEET (FOR CRISP PDF & PHYSICAL PRINT KEEPSAKES)
+   -------------------------------------------------------------------------- */
+@media print {
+
+  /* Hide non-printable interactive and ambient widgets */
+  .audio-control-wrapper,
+  .quick-nav,
+  .ambient-canvas,
+  .scroll-hint-indicator,
+  .open-btn-container,
+  .card-action-buttons,
+  .venue-card-actions,
+  .share-invitation-container,
+  .live-pulse {
+    display: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #2C1810 !important;
+    overflow: visible !important;
+  }
+
+  body::before {
+    display: none !important;
+  }
+
+  body.cover-active {
+    overflow-y: visible !important;
+  }
+
+  .opening-cover {
+    min-height: auto !important;
+    padding: 20px 0 !important;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .cover-frame-outer {
+    box-shadow: none !important;
+    border: 3px solid #C5A059 !important;
+  }
+
+  .cover-frame-inner {
+    border: 1px solid #4A1521 !important;
+    padding: 30px 20px !important;
+  }
+
+  .main-invitation-content {
+    opacity: 1 !important;
+    gap: 30px !important;
+    padding: 0 !important;
+  }
+
+  .invitation-section {
+    opacity: 1 !important;
+    transform: none !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    margin-bottom: 24px !important;
+  }
+
+  .section-card {
+    box-shadow: none !important;
+    border: 1.5px solid #C5A059 !important;
+    background: #FFFFFF !important;
+    padding: 30px 24px !important;
+  }
+
+  .wedding-card,
+  .reception-card,
+  .closing-card {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .unit-flipper {
+    border: 1px solid #C5A059 !important;
+    box-shadow: none !important;
+  }
+
+  .venues-grid {
+    display: block !important;
+  }
+
+  .venue-card {
+    box-shadow: none !important;
+    border: 1px solid #C5A059 !important;
+    margin-bottom: 14px !important;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
