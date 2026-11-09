@@ -283,7 +283,7 @@
   }
 
   /* ==========================================================================
-     4. BACKGROUND MUSIC CONTROLLER (WITH SOUND SYNTHESIS FALLBACK)
+     4. BACKGROUND MUSIC CONTROLLER
      ========================================================================== */
   class WeddingAudioController {
     constructor(config) {
@@ -291,10 +291,9 @@
       this.audioEl = document.getElementById('weddingAudio');
       this.toggleBtn = document.getElementById('audioToggleBtn');
       this.isPlaying = false;
-      this.hasUserInteracted = false;
+      this.useSynth = false;        // only used if the MP3 genuinely fails to load
       this.audioContext = null;
       this.synthNodes = null;
-      this.useSynth = false;
 
       this.init();
     }
@@ -302,18 +301,19 @@
     init() {
       if (!this.toggleBtn) return;
 
+      // Music button: click always toggles play / pause
       this.toggleBtn.addEventListener('click', () => {
-        this.hasUserInteracted = true;
         this.togglePlayback();
       });
 
-      // Check audio element source error handling
       if (this.audioEl) {
+        // If the browser can't load the MP3 at all, fall back to synth
         this.audioEl.addEventListener('error', () => {
-          // If wedding-music.mp3 doesn't exist, enable smooth Web Audio fallback
+          console.warn('wedding-music.mp3 could not be loaded — using synth fallback.');
           this.useSynth = true;
         });
 
+        // Keep the looping flag working even if the browser fires 'ended'
         this.audioEl.addEventListener('ended', () => {
           this.audioEl.currentTime = 0;
           this.audioEl.play().catch(() => {});
@@ -336,14 +336,19 @@
         return;
       }
 
-      const playPromise = this.audioEl.play();
-      if (playPromise !== undefined) {
-        playPromise
+      // Reset to beginning if the track had ended
+      if (this.audioEl.ended) {
+        this.audioEl.currentTime = 0;
+      }
+
+      const promise = this.audioEl.play();
+      if (promise !== undefined) {
+        promise
           .then(() => {
             this.setPlayingState(true);
           })
           .catch(() => {
-            // Auto fallback to subtle ambient Web Audio tone if file missing or blocked
+            // MP3 blocked or missing — fall back to ambient synth
             this.useSynth = true;
             this.playHarmonicSynth();
             this.setPlayingState(true);
@@ -363,18 +368,19 @@
 
     setPlayingState(playing) {
       this.isPlaying = playing;
-      if (this.toggleBtn) {
-        if (playing) {
-          this.toggleBtn.classList.add('is-playing');
-          this.toggleBtn.setAttribute('title', 'Pause Wedding Music');
-        } else {
-          this.toggleBtn.classList.remove('is-playing');
-          this.toggleBtn.setAttribute('title', 'Play Wedding Music');
-        }
+      if (!this.toggleBtn) return;
+      if (playing) {
+        this.toggleBtn.classList.add('is-playing');
+        this.toggleBtn.setAttribute('title', 'Pause Background Music');
+        this.toggleBtn.setAttribute('aria-label', 'Pause Background Music');
+      } else {
+        this.toggleBtn.classList.remove('is-playing');
+        this.toggleBtn.setAttribute('title', 'Play Background Music');
+        this.toggleBtn.setAttribute('aria-label', 'Play Background Music');
       }
     }
 
-    /* Traditional Tanpura/Harmonic Meditative Chord via Web Audio API */
+    /* Meditative Indian classical drone — only used if MP3 fails */
     playHarmonicSynth() {
       try {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -386,14 +392,13 @@
           this.audioContext.resume();
         }
 
-        // Indian classical Sa-Pa-Sa (C# / G# / C#) soothing ambient frequencies
-        const fundamental = 138.59; // C#3
-        const fifth = 207.65;       // G#3
-        const octave = 277.18;      // C#4
+        const fundamental = 138.59;  // C#3  (Sa)
+        const fifth       = 207.65;  // G#3  (Pa)
+        const octave      = 277.18;  // C#4  (Sa upper)
 
         const masterGain = this.audioContext.createGain();
         masterGain.gain.setValueAtTime(0.001, this.audioContext.currentTime);
-        masterGain.gain.exponentialRampToValueAtTime(0.09, this.audioContext.currentTime + 3);
+        masterGain.gain.exponentialRampToValueAtTime(0.08, this.audioContext.currentTime + 3);
         masterGain.connect(this.audioContext.destination);
 
         const osc1 = this.audioContext.createOscillator();
@@ -411,21 +416,22 @@
         osc1.connect(masterGain);
         osc2.connect(masterGain);
         osc3.connect(masterGain);
-
         osc1.start();
         osc2.start();
         osc3.start();
 
         this.synthNodes = { osc1, osc2, osc3, masterGain };
       } catch (e) {
-        // Silent degradation if Web Audio is unsupported
+        // Silently ignore — Web Audio not available
       }
     }
 
     stopHarmonicSynth() {
       if (this.synthNodes && this.audioContext) {
         try {
-          this.synthNodes.masterGain.gain.exponentialRampToValueAtTime(0.0001, this.audioContext.currentTime + 1);
+          this.synthNodes.masterGain.gain.exponentialRampToValueAtTime(
+            0.0001, this.audioContext.currentTime + 1
+          );
           setTimeout(() => {
             if (this.synthNodes) {
               this.synthNodes.osc1.stop();
@@ -481,13 +487,13 @@
         document.body.classList.remove('invitation-locked');
         document.body.classList.add('invitation-unlocked');
         openBtn.setAttribute('aria-expanded', 'true');
-        
+
         if (openingCover) {
           openingCover.classList.add('cover-opened');
         }
 
-        // 2. Gently attempt to start audio on interaction
-        if (audioController && !audioController.isPlaying) {
+        // 2. Auto-start the music immediately (browser allows this inside a click handler)
+        if (audioController) {
           audioController.play();
         }
 
