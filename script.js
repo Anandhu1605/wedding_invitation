@@ -90,6 +90,7 @@
       this.clockContainer = document.querySelector('.countdown-clock');
       this.completeMessageEl = document.getElementById('countdownCompleteMessage');
 
+
       this.timerInterval = null;
       this.init();
     }
@@ -335,114 +336,114 @@
         return;
       }
 
-      // Reset to beginning if the track had ended
-      if (this.audioEl.ended) {
-        this.audioEl.currentTime = 0;
-      }
-
-      const promise = this.audioEl.play();
-      if (promise !== undefined) {
-        promise
-          .then(() => {
-            this.setPlayingState(true);
-          })
-          .catch(() => {
-            // MP3 blocked or missing — fall back to ambient synth
-            this.useSynth = true;
-            this.playHarmonicSynth();
-            this.setPlayingState(true);
-          });
-      }
-    }
-
-    pause() {
-      if (this.audioEl && !this.useSynth) {
-        this.audioEl.pause();
-      }
-      if (this.synthNodes) {
-        this.stopHarmonicSynth();
-      }
-      this.setPlayingState(false);
-    }
-
-    setPlayingState(playing) {
-      this.isPlaying = playing;
-      if (!this.toggleBtn) return;
-      if (playing) {
-        this.toggleBtn.classList.add('is-playing');
-        this.toggleBtn.setAttribute('title', 'Pause Background Music');
-        this.toggleBtn.setAttribute('aria-label', 'Pause Background Music');
-      } else {
-        this.toggleBtn.classList.remove('is-playing');
-        this.toggleBtn.setAttribute('title', 'Play Background Music');
-        this.toggleBtn.setAttribute('aria-label', 'Play Background Music');
-      }
-    }
-
-    /* Meditative Indian classical drone — only used if MP3 fails */
-    playHarmonicSynth() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        if (!this.audioContext) {
-          this.audioContext = new AudioCtx();
-        }
-        if (this.audioContext.state === 'suspended') {
-          this.audioContext.resume();
+        // Reset to beginning if the track had ended
+        if (this.audioEl.ended) {
+          this.audioEl.currentTime = 0;
         }
 
-        const fundamental = 138.59;  // C#3  (Sa)
-        const fifth = 207.65;  // G#3  (Pa)
-        const octave = 277.18;  // C#4  (Sa upper)
-
-        const masterGain = this.audioContext.createGain();
-        masterGain.gain.setValueAtTime(0.001, this.audioContext.currentTime);
-        masterGain.gain.exponentialRampToValueAtTime(0.08, this.audioContext.currentTime + 3);
-        masterGain.connect(this.audioContext.destination);
-
-        const osc1 = this.audioContext.createOscillator();
-        osc1.type = 'sine';
-        osc1.frequency.setValueAtTime(fundamental, this.audioContext.currentTime);
-
-        const osc2 = this.audioContext.createOscillator();
-        osc2.type = 'triangle';
-        osc2.frequency.setValueAtTime(fifth, this.audioContext.currentTime);
-
-        const osc3 = this.audioContext.createOscillator();
-        osc3.type = 'sine';
-        osc3.frequency.setValueAtTime(octave, this.audioContext.currentTime);
-
-        osc1.connect(masterGain);
-        osc2.connect(masterGain);
-        osc3.connect(masterGain);
-        osc1.start();
-        osc2.start();
-        osc3.start();
-
-        this.synthNodes = { osc1, osc2, osc3, masterGain };
-      } catch (e) {
-        // Silently ignore — Web Audio not available
+        const promise = this.audioEl.play();
+        if (promise !== undefined) {
+          promise
+            .then(() => {
+              this.setPlayingState(true);
+            })
+            .catch(() => {
+              // MP3 blocked or missing — fall back to ambient synth
+              this.useSynth = true;
+              this.playHarmonicSynth();
+              this.setPlayingState(true);
+            });
+        }
       }
-    }
 
-    stopHarmonicSynth() {
-      if (this.synthNodes && this.audioContext) {
-        try {
-          this.synthNodes.masterGain.gain.exponentialRampToValueAtTime(
-            0.0001, this.audioContext.currentTime + 1
-          );
-          setTimeout(() => {
-            if (this.synthNodes) {
-              this.synthNodes.osc1.stop();
-              this.synthNodes.osc2.stop();
-              this.synthNodes.osc3.stop();
-              this.synthNodes = null;
+      pause() {
+        if (this.audioEl && !this.useSynth) {
+          this.audioEl.pause();
+        }
+        if (this.synthNodes) {
+          this.stopHarmonicSynth();
+        }
+        this.setPlayingState(false);
+      }
+
+      setPlayingState(playing) {
+        this.isPlaying = playing;
+          if (!this.toggleBtn) return;
+          if (playing) {
+            this.toggleBtn.classList.add('is-playing');
+            this.toggleBtn.setAttribute('title', 'Pause Background Music');
+            this.toggleBtn.setAttribute('aria-label', 'Pause Background Music');
+          } else {
+            this.toggleBtn.classList.remove('is-playing');
+            this.toggleBtn.setAttribute('title', 'Play Background Music');
+            this.toggleBtn.setAttribute('aria-label', 'Play Background Music');
+          }
+        }
+
+        /* Meditative Indian classical drone — only used if MP3 fails */
+        playHarmonicSynth() {
+          try {
+            const AudioCtx = window.AudioContext || window.webkitAudioContext;
+            if (!AudioCtx) return;
+            if (!this.audioContext) {
+              this.audioContext = new AudioCtx();
             }
-          }, 1000);
-        } catch (e) { }
+            if (this.audioContext.state === 'suspended') {
+              this.audioContext.resume();
+            }
+
+            const fundamental = 138.59;  // C#3  (Sa)
+            const fifth = 207.65;  // G#3  (Pa)
+            const octave = 277.18;  // C#4  (Sa upper)
+
+            const masterGain = this.audioContext.createGain();
+            masterGain.gain.setValueAtTime(0.001, this.audioContext.currentTime);
+            masterGain.gain.exponentialRampToValueAtTime(0.08, this.audioContext.currentTime + 3);
+            masterGain.connect(this.audioContext.destination);
+
+            const osc1 = this.audioContext.createOscillator();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(fundamental, this.audioContext.currentTime);
+
+            const osc2 = this.audioContext.createOscillator();
+            osc2.type = 'triangle';
+            osc2.frequency.setValueAtTime(fifth, this.audioContext.currentTime);
+
+            const osc3 = this.audioContext.createOscillator();
+            osc3.type = 'sine';
+            osc3.frequency.setValueAtTime(octave, this.audioContext.currentTime);
+
+            osc1.connect(masterGain);
+            osc2.connect(masterGain);
+            osc3.connect(masterGain);
+            osc1.start();
+            osc2.start();
+            osc3.start();
+
+            this.synthNodes = { osc1, osc2, osc3, masterGain };
+          } catch (e) {
+            // Silently ignore — Web Audio not available
+          }
+        }
+
+        stopHarmonicSynth() {
+          if (this.synthNodes && this.audioContext) {
+            try {
+              this.synthNodes.masterGain.gain.exponentialRampToValueAtTime(
+                0.0001, this.audioContext.currentTime + 1
+              );
+              setTimeout(() => {
+                if (this.synthNodes) {
+                  this.synthNodes.osc1.stop();
+                  this.synthNodes.osc2.stop();
+                  this.synthNodes.osc3.stop();
+                  this.synthNodes = null;
+                }
+              }, 1000);
+          } catch (e) { }
+        }
       }
     }
-  }
 
   /* ==========================================================================
      5. OPENING INVITATION TRANSITION & SCROLL REVEAL
@@ -487,32 +488,34 @@
         document.body.classList.add('invitation-unlocked');
         openBtn.setAttribute('aria-expanded', 'true');
 
+
         if (openingCover) {
           openingCover.classList.add('cover-opened');
         }
 
-        // 2. Auto-start the music immediately (browser allows this inside a click handler)
-        if (audioController) {
-          audioController.play();
-        }
-
-        // 3. Initialize scroll animations for revealed cards
-        initSectionObserver();
-
-        // 4. Smoothly glide viewport to the Family section
-        setTimeout(() => {
-          const targetSection = document.getElementById('family') || mainContent;
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // 2. Auto-start the music immediately (browser allows this inside a click handler)
+          if (audioController) {
+            audioController.play();
           }
-        }, 200);
-      });
+
+          // 3. Initialize scroll animations for revealed cards
+          initSectionObserver();
+
+          // 4. Smoothly glide viewport to the Family section
+          setTimeout(() => {
+            const targetSection = document.getElementById('family') || mainContent;
+            if (targetSection) {
+              targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }, 200);
+        });
     }
 
     // Show / Hide Floating Quick Nav only after opening and scrolling past cover
     window.addEventListener('scroll', () => {
       if (document.body.classList.contains('invitation-locked')) return;
       if (!quickNav || !openingCover) return;
+
 
       const coverRect = openingCover.getBoundingClientRect();
       if (coverRect.bottom < 150) {
@@ -596,32 +599,32 @@
   /* ==========================================================================
      7. WHATSAPP SHARE INVITATION
      ========================================================================== */
-  function setupWhatsAppShare() {
-    const shareBtn = document.getElementById('shareWhatsAppBtn');
-    if (!shareBtn) return;
+  // function setupWhatsAppShare() {
+  //   const shareBtn = document.getElementById('shareWhatsAppBtn');
+  //   if (!shareBtn) return;
 
-    shareBtn.addEventListener('click', () => {
-      const pageUrl = window.location.href;
-      const shareMessage =
-        `॥ शुभमस्तु ॥\n\n` +
-        `With hearts filled with joy and gratitude, we cordially invite you and your family to the auspicious weddings of our sons:\n\n` +
-        `🕊️ AKSHAY ACHUTH & DHWANI CHOKSI\n` +
-        `📅 28 December 2026\n` +
-        `📍 Guruvayur Sree Krishna Temple\n\n` +
-        `🕊️ ANANDHU AJAYAKUMAR & NEERAJA NAMBIAR\n` +
-        `📅 30 December 2026 • 11:30 AM\n` +
-        `📍 Hajmus Convention Centre\n\n` +
-        `✨ THE GRAND WEDDING RECEPTION\n` +
-        `📅 31 December 2026 • 4:00 PM Onwards\n` +
-        `📍 Luxotica, Dharmashala\n\n` +
-        `Warm regards,\n` +
-        `Ajayakumar K. K. & Sapna Ajayakumar\n\n` +
-        `View our digital wedding invitation:\n${pageUrl}`;
+  //   shareBtn.addEventListener('click', () => {
+  //     const pageUrl = window.location.href;
+  //     const shareMessage =
+  //       `॥ शुभमस्तु ॥\n\n` +
+  //       `With hearts filled with joy and gratitude, we cordially invite you and your family to the auspicious weddings of our sons:\n\n` +
+  //       `🕊️ AKSHAY ACHUTH & DHWANI CHOKSI\n` +
+  //       `📅 28 December 2026\n` +
+  //       `📍 Guruvayur Sree Krishna Temple\n\n` +
+  //       `🕊️ ANANDHU AJAYAKUMAR & NEERAJA NAMBIAR\n` +
+  //       `📅 30 December 2026 • 11:30 AM\n` +
+  //       `📍 Hajmus Convention Centre\n\n` +
+  //       `✨ THE GRAND WEDDING RECEPTION\n` +
+  //       `📅 31 December 2026 • 4:00 PM Onwards\n` +
+  //       `📍 Luxotica, Dharmashala\n\n` +
+  //       `Warm regards,\n` +
+  //       `Ajayakumar K. K. & Sapna Ajayakumar\n\n` +
+  //       `View our digital wedding invitation:\n${pageUrl}`;
 
-      const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMessage)}`;
-      window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
-    });
-  }
+  //     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(shareMessage)}`;
+  //     window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+  //   });
+  // }
 
   /* ==========================================================================
      8. INITIALIZATION RUNNER
