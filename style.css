@@ -1733,7 +1733,27 @@ body.invitation-unlocked .main-invitation-content {
 }
 
 /* --------------------------------------------------------------------------
-   16. ACCESSIBILITY & REDUCED MOTION PREFERENCE
+   16. GOLDEN OM SYMBOL
+   -------------------------------------------------------------------------- */
+.om-symbol-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 10px auto;
+}
+
+.om-symbol-svg {
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(170, 124, 17, 0.25));
+  transition: transform 0.4s ease;
+}
+
+.section-card:hover .om-symbol-svg {
+  transform: scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   17. ACCESSIBILITY & REDUCED MOTION PREFERENCE
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {
